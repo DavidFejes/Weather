@@ -1,16 +1,30 @@
-/* MONOKAI PRO TÉMA & ALAPBEÁLLÍTÁSOK */
-:root { /* ...a meglévő színeid... */ }
+/* ==========================
+   KÖZPONTI VÁLTOZÓK
+   ========================== */
+:root {
+    --szin-hatter-kezdo: #2b5876;
+    --szin-hatter-veg: #4e4376;
+    --szin-feher-attetszo: rgba(255, 255, 255, 0.2);
+    --szin-fekete-attetszo-gyenge: rgba(0, 0, 0, 0.2);
+    --szin-fekete-attetszo-eros: rgba(0, 0, 0, 0.4);
+    --szin-szoveg-elsodleges: white;
+    --betutipus-alap: 'Poppins', sans-serif; /* A megbízható Google Font */
+    --lekerekites-merete: 20px;
+}
+
+/* BOX SIZING RESET */
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
+/* BODY ALAPBEÁLLÍTÁS */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #2b5876, #4e4376);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, var(--szin-hatter-kezdo), var(--szin-hatter-veg));
+    font-family: var(--betutipus-alap);
     padding: 20px;
 }
 
@@ -20,7 +34,7 @@ body {
 
 .app-container {
     display: flex;
-    flex-direction: column; /* Egymás alatt mobilnézetben */
+    flex-direction: column; /* Mobilon minden egymás alatt */
     gap: 20px;
     width: 100%;
     max-width: 450px;
@@ -28,14 +42,17 @@ body {
 
 .weather-card, .interactive-panel {
     width: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     flex-direction: column;
+}
+
+.weather-card {
+    background: var(--szin-fekete-attetszo-eros);
+    color: var(--szin-szoveg-elsodleges);
+    border-radius: var(--lekerekites-merete);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--szin-feher-attetszo);
 }
 
 /* === IDŐJÁRÁS KÁRTYA STÍLUSOK (Mobil) === */
@@ -45,27 +62,56 @@ body {
 .icon { font-size: 3.5em; }
 .temperature { font-size: 3.2em; font-weight: 200; }
 .description { font-size: 1.1em; text-transform: capitalize; opacity: 0.8; }
-.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background-color: rgba(255, 255, 255, 0.2); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; overflow: hidden; }
-.detail-box { background: rgba(0, 0, 0, 0.2); padding: 15px; text-align: center; }
+.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background-color: var(--szin-feher-attetszo); border-bottom-left-radius: var(--lekerekites-merete); border-bottom-right-radius: var(--lekerekites-merete); overflow: hidden; }
+.detail-box { background: var(--szin-fekete-attetszo-gyenge); padding: 15px; text-align: center; }
 .label { font-size: 0.8em; opacity: 0.7; margin-bottom: 5px; }
 .value { font-size: 1.2em; font-weight: 500; }
 
 
 /* === KERESŐ ÉS TÉRKÉP PANEL (Mobil) === */
-.search-section { position: relative}
-#city-input { width: 100%; padding: 12px; font-size: 1em; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: white; }
-.autocomplete-results { /* ...a meglévő autocomplete stílusok... */ }
-.autocomplete-item { padding: 12px; }
+.interactive-panel {
+    gap: 15px; /* Távolság a kereső és a térkép között */
+}
+
+.search-section { 
+    position: relative; 
+}
+#city-input { 
+    width: 100%; 
+    padding: 12px; 
+    font-size: 1em; 
+    border-radius: 10px; 
+    border: 1px solid var(--szin-feher-attetszo); 
+    background: var(--szin-fekete-attetszo-eros); 
+    color: var(--szin-szoveg-elsodleges); 
+    backdrop-filter: blur(10px);
+}
+.autocomplete-results { 
+    /* ... az autocomplete stílusok, amik jók voltak ... */
+    position: absolute;
+    width: 100%;
+    background: rgba(20, 20, 25, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--szin-feher-attetszo);
+    border-radius: 10px;
+    margin-top: 5px;
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 1001; 
+    display: none;
+}
+.autocomplete-item { /* ...és a többi autocomplete stílus... */ }
 
 .map-container {
-    width: 100%;
-    height: 400px;
+    height: 400px; /* Mobilon a térkép fix magasságú */
+    border-radius: var(--lekerekites-merete);
+    overflow: hidden; /* Ez kerekíti le a térképet */
+    border: 1px solid var(--szin-feher-attetszo);
+    background: var(--szin-fekete-attetszo-eros);
 }
 #map { 
     height: 100%; 
     width: 100%; 
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ======================================
@@ -80,19 +126,21 @@ body {
     }
     
     .weather-card, .interactive-panel {
-        display: flex;
-    flex-direction: column;
-    gap: 15px; /* Távolság a kereső és a térkép között */
+        flex: 1;
     }
     
-    /* Visszaállítjuk az eredeti, nagy betűméreteket */
     .location { font-size: 1.7em; }
     .temperature { font-size: 3.8em; }
     .icon { font-size: 4em; }
 
     .details-grid {
-        flex-grow: 1; /* Csak nagy képernyőn nyújtjuk meg a rácsot */
+        flex-grow: 1; /* A rács megnyúlik, hogy kitöltse a magasságot */
     }
 
     #city-input { padding: 15px; font-size: 1.1em; }
+    
+    .map-container {
+        flex-grow: 1; /* A térkép is megnyúlik, hogy a panel kitöltse a magasságot */
+        height: auto; /* A magasságot már a flexbox adja */
+    }
 }
