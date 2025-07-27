@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktív Időjárás Dashboard</title>
+    
+    <!-- Leaflet Térkép CSS (kötelezően a <head>-ben) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- A mi saját stíluslapunk -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- A fő tároló, ami az appot tartalmazza -->
+    <div class="app-container">
+        
+        <!-- Időjárási kártya (a tartalmát a JS tölti fel) -->
+        <div class="weather-card">
+            <div class="main-info">
+                <div class="location">--</div>
+                <div class="main-temp-icon">
+                    <div class="icon">--</div>
+                    <div class="temperature">--°</div>
+                </div>
+                <div class="description">--</div>
+            </div>
+            <div class="details-grid">
+                <div class="detail-box">
+                    <div class="label">Hőérzet</div>
+                    <div class="value feels-like">--°</div>
+                </div>
+                <div class="detail-box">
+                    <div class="label">Szél</div>
+                    <div class="value wind-speed">-- km/h</div>
+                </div>
+                <div class="detail-box">
+                    <div class="label">Páratartalom</div>
+                    <div class="value humidity">--%</div>
+                </div>
+                <div class="detail-box">
+                    <div class="label">Légnyomás</div>
+                    <div class="value pressure">-- hPa</div>
+                </div>
+                <div class="detail-box">
+                    <div class="label">Napkelte</div>
+                    <div class="value sunrise">--:--</div>
+                </div>
+                <div class="detail-box">
+                    <div class="label">Napnyugta</div>
+                    <div class="value sunset">--:--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Térkép tároló -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+
+    </div>
+
+    <!-- Leaflet Térkép JavaScript (a saját scriptünk ELŐTT kell lennie) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- A mi saját logikánk -->
+    <script src="script.js"></script>
+</body>
+</html>
