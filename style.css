@@ -52,17 +52,21 @@ body {
 
 
 /* === KERESŐ ÉS TÉRKÉP PANEL (Mobil) === */
-.search-section { position: relative; padding: 10px; }
+.search-section { position: relative}
 #city-input { width: 100%; padding: 12px; font-size: 1em; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: white; }
 .autocomplete-results { /* ...a meglévő autocomplete stílusok... */ }
 .autocomplete-item { padding: 12px; }
 
 .map-container {
-    flex-grow: 1;
-    min-height: 300px;
-    padding: 10px;
+    width: 100%;
+    height: 400px;
 }
-#map { height: 100%; width: 100%; border-radius: 15px; }
+#map { 
+    height: 100%; 
+    width: 100%; 
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
 /* ======================================
    NAGY KÉPERNYŐS NÉZET (@media query)
@@ -76,7 +80,9 @@ body {
     }
     
     .weather-card, .interactive-panel {
-        flex: 1;
+        display: flex;
+    flex-direction: column;
+    gap: 15px; /* Távolság a kereső és a térkép között */
     }
     
     /* Visszaállítjuk az eredeti, nagy betűméreteket */
