@@ -1,3 +1,8 @@
+/* MONOKAI PRO TÉMA & ALAPBEÁLLÍTÁSOK */
+:root { /* ...a meglévő színeid... */ }
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
 body {
     display: flex;
     justify-content: center;
@@ -7,122 +12,81 @@ body {
     background: linear-gradient(135deg, #2b5876, #4e4376);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     padding: 20px;
-    box-sizing: border-box;
 }
+
+/* ======================================
+   MOBIL NÉZET ALAPÉRTELMEZÉSE
+   ====================================== */
 
 .app-container {
     display: flex;
+    flex-direction: column; /* Egymás alatt mobilnézetben */
     gap: 20px;
     width: 100%;
-    max-width: 900px;
-    align-items: stretch; /* Stretches items to be equal height */
+    max-width: 450px;
 }
 
-/* LEFT & RIGHT PANELS */
 .weather-card, .interactive-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.weather-card {
+    width: 100%;
     background: rgba(0, 0, 0, 0.3);
     color: white;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* SEARCH BAR SECTION */
-.search-section {
-    position: relative;
-    margin-bottom: 15px;
-}
-#city-input {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1em;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-}
-#city-input:focus {
-    outline: none;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-}
-.autocomplete-results {
-    position: absolute;
-    width: 100%;
-    background: rgba(20, 20, 25, 0.7);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    margin-top: 5px;
-    max-height: 240px;
-    overflow-y: auto;
-    z-index: 1001; /* Must be above the map */
-}
-.autocomplete-item {
-    padding: 15px;
-    cursor: pointer;
-    color: #eee;
-}
-.autocomplete-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-.autocomplete-item:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* MAP CONTAINER */
-.map-container {
-    flex-grow: 1; /* This makes the map fill the remaining vertical space */
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 10px;
-}
-#map {
-    height: 100%;
-    width: 100%;
-    border-radius: 15px;
-}
-
-/* WEATHER CARD SPECIFIC STYLING (to fill height) */
-.details-grid {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-.detail-box {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
-.main-info {
-    text-align: center;
-    padding: 20px;
-}
-.location { font-size: 1.7em; font-weight: 500; min-height: 1.2em; }
-.main-temp-icon { display: flex; justify-content: center; align-items: center; margin: 15px 0; gap: 20px; }
-.icon { font-size: 4em; }
-.temperature { font-size: 3.8em; font-weight: 200; }
+
+/* === IDŐJÁRÁS KÁRTYA STÍLUSOK (Mobil) === */
+.main-info { text-align: center; padding: 20px; }
+.location { font-size: 1.5em; font-weight: 500; min-height: 1.2em; }
+.main-temp-icon { display: flex; justify-content: center; align-items: center; margin: 15px 0; gap: 15px; }
+.icon { font-size: 3.5em; }
+.temperature { font-size: 3.2em; font-weight: 200; }
 .description { font-size: 1.1em; text-transform: capitalize; opacity: 0.8; }
+.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background-color: rgba(255, 255, 255, 0.2); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; overflow: hidden; }
+.detail-box { background: rgba(0, 0, 0, 0.2); padding: 15px; text-align: center; }
 .label { font-size: 0.8em; opacity: 0.7; margin-bottom: 5px; }
 .value { font-size: 1.2em; font-weight: 500; }
 
-/* RESPONSIVE VIEW (for smaller screens) */
-@media (max-width: 800px) {
+
+/* === KERESŐ ÉS TÉRKÉP PANEL (Mobil) === */
+.search-section { position: relative; padding: 10px; }
+#city-input { width: 100%; padding: 12px; font-size: 1em; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2); color: white; }
+.autocomplete-results { /* ...a meglévő autocomplete stílusok... */ }
+.autocomplete-item { padding: 12px; }
+
+.map-container {
+    flex-grow: 1;
+    min-height: 300px;
+    padding: 10px;
+}
+#map { height: 100%; width: 100%; border-radius: 15px; }
+
+/* ======================================
+   NAGY KÉPERNYŐS NÉZET (@media query)
+   ====================================== */
+
+@media (min-width: 900px) {
     .app-container {
-        flex-direction: column;
+        flex-direction: row;
+        align-items: stretch;
+        max-width: 900px;
     }
+    
+    .weather-card, .interactive-panel {
+        flex: 1;
+    }
+    
+    /* Visszaállítjuk az eredeti, nagy betűméreteket */
+    .location { font-size: 1.7em; }
+    .temperature { font-size: 3.8em; }
+    .icon { font-size: 4em; }
+
+    .details-grid {
+        flex-grow: 1; /* Csak nagy képernyőn nyújtjuk meg a rácsot */
+    }
+
+    #city-input { padding: 15px; font-size: 1.1em; }
 }
