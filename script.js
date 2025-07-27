@@ -130,4 +130,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INITIAL LOAD ---
     fetchWeather(defaultCoords.lat, defaultCoords.lon);
-});
+
+        // === INDULÓ ÁLLAPOT BEÁLLÍTÁSA (ez már megvan) ===
+    // ...
+
+    // === RESZPONZÍV TÉRKÉP JAVÍTÁS ===
+    // Figyeljük az ablak átméretezését
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        // A "debounce" technika, hogy ne fusson le minden pixelnyi mozgásra
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // Ez a varázslat. Újraszámoltatjuk a térkép méretét.
+            map.invalidateSize();
+        }, 100); // 100ms-ot vár az átméretezés befejezése után
+    });
+
+}); // Ez a script legvége
