@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktív Időjárás Dashboard</title>
     
-    <!-- Leaflet Térkép CSS (kötelezően a <head>-ben) -->
+    <!-- Leaflet Map CSS (required in <head>) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-    <!-- A mi saját stíluslapunk -->
+    <!-- Our Custom Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- A fő tároló, ami az appot tartalmazza -->
+    <!-- Main container for the entire app -->
     <div class="app-container">
         
-        <!-- Időjárási kártya (a tartalmát a JS tölti fel) -->
+        <!-- === LEFT SIDE: WEATHER CARD === -->
         <div class="weather-card">
+            <!-- Main Info Section -->
             <div class="main-info">
                 <div class="location">--</div>
                 <div class="main-temp-icon">
@@ -26,6 +27,7 @@
                 </div>
                 <div class="description">--</div>
             </div>
+            <!-- Details Grid Section -->
             <div class="details-grid">
                 <div class="detail-box">
                     <div class="label">Hőérzet</div>
@@ -54,17 +56,28 @@
             </div>
         </div>
 
-        <!-- Térkép tároló -->
-        <div class="map-container">
-            <div id="map"></div>
+        <!-- === RIGHT SIDE: MAP & SEARCH === -->
+        <div class="interactive-panel">
+            <!-- Search Bar Section -->
+            <div class="search-section">
+                <input type="text" id="city-input" placeholder="Keress egy várost...">
+                <div id="autocomplete-results" class="autocomplete-results">
+                    <!-- Autocomplete suggestions will appear here -->
+                </div>
+            </div>
+            
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
         </div>
 
     </div>
 
-    <!-- Leaflet Térkép JavaScript (a saját scriptünk ELŐTT kell lennie) -->
+    <!-- Leaflet Map JavaScript (must be before our script) -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- A mi saját logikánk -->
+    <!-- Our App's Logic -->
     <script src="script.js"></script>
 </body>
 </html>
