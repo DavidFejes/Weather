@@ -134,16 +134,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // === INDULÓ ÁLLAPOT BEÁLLÍTÁSA (ez már megvan) ===
     // ...
 
-    // === RESZPONZÍV TÉRKÉP JAVÍTÁS ===
-    // Figyeljük az ablak átméretezését
+        // === RESZPONZÍV TÉRKÉP JAVÍTÁS (ÚJ, KÉSLELTETETT VERZIÓ) ===
     let resizeTimer;
     window.addEventListener('resize', () => {
-        // A "debounce" technika, hogy ne fusson le minden pixelnyi mozgásra
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            // Ez a varázslat. Újraszámoltatjuk a térkép méretét.
-            map.invalidateSize();
-        }, 100); // 100ms-ot vár az átméretezés befejezése után
+            
+            // EZ AZ ÚJ VARÁZSLAT
+            // Adunk a böngészőnek 10ms-ot, hogy befejezze a layout átrendezését
+            setTimeout(() => {
+                map.invalidateSize(true); // A 'true' opció még alaposabb újrarajzolást kér
+            }, 10); // Ez a 10ms-os késleltetés a trükk
+
+        }, 150); // Picit növeljük a külső debounce időt is
     });
 
 }); // Ez a script legvége
