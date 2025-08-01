@@ -3,21 +3,66 @@ document.addEventListener('DOMContentLoaded', () => {
     const weatherApiKey = 'aa3d656bf84f1ed958b10c100b18337e';
     const geoapifyApiKey = 'c9b46510b1ae4ba7a2dcda99a0b81e68';
 
-    // === DEFAULT LOCATION ===
-    const defaultCoords = { lat: 46.65, lon: 20.26 };
+    // === DEFAULT LOCATION (FALLBACK) ===
+    const defaultCoords = { lat: 20.26 , lon: 46.65 };
 
     // === HTML ELEMENTS ===
     const cityInput = document.getElementById('city-input');
     const autocompleteResults = document.getElementById('autocomplete-results');
     
-    // === MAP INITIALIZATION ===
-    const map = L.map('map').setView([defaultCoords.lat, defaultCoords.lon], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-    let marker = L.marker([defaultCoords.lat, defaultCoords.lon]).addTo(map);
+    // === MAP & MARKER VARIABLES ===
+    let map;
+    let marker;
+
+    // === INITIALIZE APP ===
+    function initializeApp(coords) {
+        // === MAP INITIALIZATION ===
+        map = L.map('map').setView([coords.lat, coords.lon], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        marker = L.marker([coords.lat, coords.lon]).addTo(map);
+        
+        // === INITIAL WEATHER FETCH ===
+        fetchWeather(coords.lat, coords.lon);
+
+        // === RESIZE LISTENER ===
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                setTimeout(() => {
+                    if (map) {
+                        map.invalidateSize(true);
+                    }
+                }, 10);
+            }, 150);
+        });
+    }
     
+    // === GET USER'S LOCATION OR USE DEFAULT ===
+    function getInitialLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userCoords = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                    initializeApp(userCoords);
+                },
+                (error) => {
+                    console.warn("Helymeghatározás sikertelen, alapértelmezett hely betöltve.", error.message);
+                    initializeApp(defaultCoords); // Hiba esetén alapértelmezett hely
+                }
+            );
+        } else {
+            console.warn("A böngésző nem támogatja a helymeghatározást, alapértelmezett hely betöltve.");
+            initializeApp(defaultCoords); // Ha a geolocation nem támogatott
+        }
+    }
+
     // === CITY SEARCH LOGIC ===
     let debounceTimer;
     cityInput.addEventListener('input', () => {
@@ -27,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
             hideAutocomplete();
             return;
         }
-        // Debounce: wait 300ms after user stops typing
         debounceTimer = setTimeout(() => {
             fetchCities(query);
         }, 300);
@@ -129,24 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- INITIAL LOAD ---
-    fetchWeather(defaultCoords.lat, defaultCoords.lon);
+    getInitialLocation(); // Ez indítja a helymeghatározást és az appot
 
-        // === INDULÓ ÁLLAPOT BEÁLLÍTÁSA (ez már megvan) ===
-    // ...
-
-        // === RESZPONZÍV TÉRKÉP JAVÍTÁS (ÚJ, KÉSLELTETETT VERZIÓ) ===
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            
-            // EZ AZ ÚJ VARÁZSLAT
-            // Adunk a böngészőnek 10ms-ot, hogy befejezze a layout átrendezését
-            setTimeout(() => {
-                map.invalidateSize(true); // A 'true' opció még alaposabb újrarajzolást kér
-            }, 10); // Ez a 10ms-os késleltetés a trükk
-
-        }, 150); // Picit növeljük a külső debounce időt is
-    });
-
-}); // Ez a script legvége
+});
